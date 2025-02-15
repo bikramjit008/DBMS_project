@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/logInstyle.css')}}">
+</head>
+<body>
+    <header>
+        <img src="{{url_for('static',filename='images/Back_arrow.svg')}}" alt="Back" width="50px" onclick="back()">
+        <nav>
+            <h1>Sign Up</h1>
+        </nav>
+    </header>
+    <div class="parent">
+        <div class="box">
+            <form action="/add_user" method="post">
+                <!-- input for User Id -->
+                <input type="text" name="auser_id" id="user_id" placeholder="User id">
+                <!-- input for username -->
+                 <input type="text" name="auser_name" id="user_name" placeholder="Name">
+                <!-- input for user email -->
+                 <input type="email" name="auser_email" id="user_email" placeholder="E-mail">
+                <!-- input for name -->
+                <input type="password" name="apassworrd" id="password" placeholder="Password">
+                <!-- button for submit -->
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+    <script src="{{url_for('static',filename='js/Script.js')}}"></script>
+</body>
+</html>

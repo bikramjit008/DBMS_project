@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toll Payment</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/logInstyle.css')}}">
+</head>
+<body>
+    <header>
+        <img src="{{url_for('static',filename='images/Back_arrow.svg')}}" alt="Back" width="50px" onclick="back_user()">
+        <nav>
+            <h1>Log In</h1>
+        </nav>
+    </header>
+    <div class="parent">
+        <div class="box">
+            <form action="" method="get">
+                <select name="reg_no" id="reg_no">
+                    <option value="none">none</option>
+                </select>
+                <select name="v_type" id="v_type">
+                    <option value="none">none</option>
+                </select>
+                <select name="dis" id="dis">
+                    <option value="10">10 km</option>
+                    <option value="30">30 km</option>
+                    <option value="more">more than 30 km</option>
+                </select>
+                <input type="submit" value="Pay">
+            </form>
+        </div>
+    </div>
+    <script src="{{url_for('static',filename='js/Script.js')}}"></script>
+</body>
+</html>

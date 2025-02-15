@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Registration</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/logInstyle.css')}}">
+</head>
+
+<body>
+    <header>
+        <img src="{{url_for('static',filename='images/Back_arrow.svg')}}" alt="Back" width="50px" onclick="back_user()">
+        <nav>
+            <h1>Vehicle Registration</h1>
+        </nav>
+    </header>
+    <div class="parent">
+        <div class="box">
+            <form action="" method="get">
+                <!-- input for vehicle regestration no  -->
+                <input type="text" name="reg_no" id="reg_no" placeholder="Registration No.">
+                <!-- input for vehicle type  -->
+                <input type="text" name="v_type" id="v_type" placeholder="Vehicle Type">
+                <!-- input for model no  -->
+                <input type="text" name="m_no" id="m_no" placeholder="Model No.">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <script src="{{url_for('static',filename='js/Script.js')}}"></script>
+</body>
+
+</html>
