@@ -74,7 +74,21 @@ def add_user():
     cursor.execute("""SELECT * FROM `User` WHERE `user_ID` LIKE '{}'""".format(userid))
     myuser = cursor.fetchall()
     session['user_id'] = myuser[0][0]
-    return redirect('/login')
+    return redirect('login')
+
+
+@app.route('/add_vehicle_details', methods=['POST'])
+def add_vehicle():
+    reg_no = request.form.get('reg_no')
+    veh_type = request.form.get('v_type')
+    mod_no = request.form.get('m_no')
+    user_id = session['user_id']
+
+    cursor.execute("""INSERT INTO `Vehicle` (`reg_no`, `vehicle_Type`, `model_No`, `user_ID`) VALUES
+    ('{}', '{}', '{}', '{}')""".format(reg_no, veh_type, mod_no, user_id))
+    conn.commit()
+    session['reg_no'] = reg_no
+    return redirect('/user')
 
 
 if __name__ == "__main__":
