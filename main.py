@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
 import os
+from datetime import datetime
+import random
 
 
 app = Flask(__name__)
@@ -34,7 +36,17 @@ def user():
         uid_ = session['user_id']
         cursor.execute("""SELECT * FROM `User` WHERE `user_ID` LIKE '{}'""".format(uid_))
         user_det = cursor.fetchall()
-        return render_template('user_interface.html', det=user_det)
+        cursor.execute("""SELECT * FROM `Vehicle` WHERE `user_ID` LIKE '{}'""".format(user_det[0][0]))
+        veh_det = cursor.fetchall()
+        so = len(veh_det) > 0
+        if so:
+            regn_no = veh_det[0][0]
+            cursor.execute("""SELECT * FROM `Payment` WHERE `reg_No` LIKE '{}'""".format(regn_no))
+            ss = cursor.fetchall()
+            pay = len(ss) > 0
+        else:
+            pay = False
+        return render_template('user_interface.html', det=user_det, p=pay, v=so)
     else:
         return redirect('/')
 
@@ -53,7 +65,10 @@ def vehicle():
 
 @app.route('/payment')
 def payment():
-    return render_template('Pay_toll.html')
+    uid = session['user_id']
+    cursor.execute("""SELECT * FROM `Vehicle` WHERE `user_ID` LIKE '{}'""".format(uid))
+    regno = cursor.fetchall()
+    return render_template('Pay_toll.html', regn=regno[0][0], date=datetime.now().date())
 
 
 @app.route('/login_validation', methods=['POST'])
@@ -100,9 +115,29 @@ def add_vehicle():
     return redirect('/user')
 
 
-# @app.route('/payment_validation', methods=['POST'])
-# def payment_validation():
-#
+@app.route('/payment_validation', methods=['GET', 'POST'])
+def payment_validation():
+    uid = session['user_id']
+    cursor.execute("""SELECT * FROM `Vehicle` WHERE `user_ID` LIKE '{}'""".format(uid))
+    regno = cursor.fetchall()
+    if len(regno) > 0:
+        return redirect('/payment')
+    else:
+        flash("Please register your Vehicle first.", 'error')
+        return redirect('/user')
+
+
+@app.route('/payment_details', methods=['POST'])
+def pay_det():
+    reg_no = request.form.get('reg_no')
+    dist = request.form.get('dis')
+    amo = request.form.get('amount')
+    date = datetime.now().date()
+    pid = random.randint(10**9, 10**10 - 1)
+    cursor.execute("""INSERT INTO `Payment` (`payment_Id`, `payment_Amount`, `distance`, `payment_Date`,`reg_No`) VALUES
+        ('{}', '{}', '{}', '{}','{}')""".format(pid, amo, dist, date, reg_no))
+    conn.commit()
+    return redirect('/user')
 
 
 if __name__ == "__main__":

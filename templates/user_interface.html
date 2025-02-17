@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
 <head>
     <meta charset="UTF-8">
@@ -7,16 +14,6 @@
     <title>User Interface</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/userStyle.css')}}">
 </head>
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
 
 <body>
     <header id="hd">
@@ -45,22 +42,30 @@
             </div>
             <div class="b">
                 <button id="r_v"><a href="/vehicle_register">Registration</a></button>
-                <button id="pay_toll" ><a href="/payment">Pay Toll Tax</a></button>
+                <button id="pay_toll" ><a href="/payment_validation">Pay Toll Tax</a></button>
             </div>
         </div>
         <div class="vpd">
             <div class="box">
                 <h3>Registrated Vehicle</h3>
                 <div class="abc" id="vehicle">
-                    <!-- add registrated vehicles -->
-                    No Records
+                    {% if v==True %}
+                        Registered Successfully.
+                    {% else %}
+                        No Record.
+                    {% endif %}
+
                 </div>
             </div>
             <div class="box">
                 <h3>Payments</h3>
                 <div class="abc" id="payment">
-                    <!-- add Payment list by the user -->
-                    No Records
+                    {% if p==True %}
+                        Successful.
+                    {% else %}
+                        Payment Due.
+                    {% endif %}
+<!--                    {{p}}-->
                 </div>
             </div>
         </div>

@@ -15,18 +15,27 @@
     </header>
     <div class="parent">
         <div class="box">
-            <form action="" method="get">
+            <form action="/payment_details" method="post" >
                 <select name="reg_no" id="reg_no">
-                    <option value="none">none</option>
-                </select>
-                <select name="v_type" id="v_type">
-                    <option value="none">none</option>
+                    <option value="">Select</option>
+                    <option value="{{regn}}">{{regn}}</option>
                 </select>
                 <select name="dis" id="dis">
                     <option value="10">10 km</option>
                     <option value="30">30 km</option>
-                    <option value="more">more than 30 km</option>
+                    <option value="50">50 km</option>
+                    <option value="80">80 km</option>
                 </select>
+                <select name="amount" id="p_amount">
+                    <option value="10">10</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                    <option value="80">80</option>
+                </select>
+                <select name="date" id="date">
+                    <option value="{{date}}">{{date}}</option>
+                </select>
+
                 <input type="submit" value="Pay">
             </form>
         </div>
