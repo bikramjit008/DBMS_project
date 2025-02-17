@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
 import os
 
@@ -31,14 +31,24 @@ def login():
 @app.route('/user')
 def user():
     if 'user_id' in session:
-        return render_template('user_interface.html')
+        uid_ = session['user_id']
+        cursor.execute("""SELECT * FROM `User` WHERE `user_ID` LIKE '{}'""".format(uid_))
+        user_det = cursor.fetchall()
+        return render_template('user_interface.html', det=user_det)
     else:
         return redirect('/')
 
 
 @app.route('/vehicle_register')
 def vehicle():
-    return render_template('vehicle_register.html')
+    uid = session['user_id']
+    cursor.execute("""SELECT * FROM `Vehicle` WHERE `user_ID` LIKE '{}'""".format(uid))
+    regno = cursor.fetchall()
+    if len(regno) > 0:
+        flash("Your Vehicle is already registered.", 'error')
+        return redirect('/user')
+    else:
+        return render_template('vehicle_register.html')
 
 
 @app.route('/payment')
@@ -87,8 +97,12 @@ def add_vehicle():
     cursor.execute("""INSERT INTO `Vehicle` (`reg_no`, `vehicle_Type`, `model_No`, `user_ID`) VALUES
     ('{}', '{}', '{}', '{}')""".format(reg_no, veh_type, mod_no, user_id))
     conn.commit()
-    session['reg_no'] = reg_no
     return redirect('/user')
+
+
+# @app.route('/payment_validation', methods=['POST'])
+# def payment_validation():
+#
 
 
 if __name__ == "__main__":
